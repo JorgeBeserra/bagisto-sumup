@@ -1,0 +1,27 @@
+{
+    "name": "jorgebeserra/bagisto-sumup",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jorge Beserra",
+            "email": "jorgebeserra@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/serializer": "^5.0",
+        "sumup/sumup-ecom-php-sdk": "9999999-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jorgebeserra\\SumUp\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JorgeBeserra\\SumUp\\Providers\\SumupServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
