@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "JorgeBeserra\\SumUp\\Providers\\SumupServiceProvider"
+                "Jorgebeserra\\SumUp\\Providers\\SumupServiceProvider"
             ]
         }
     },
