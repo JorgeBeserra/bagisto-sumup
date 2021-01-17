@@ -13,13 +13,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Jorgebeserra\\SumUp\\": "src/"
+            "Jorgebeserra\\Sumup\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Jorgebeserra\\SumUp\\Providers\\SumupServiceProvider"
+                "Jorgebeserra\\Sumup\\Providers\\SumupServiceProvider"
             ]
         }
     },
