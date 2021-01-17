@@ -31,7 +31,11 @@ class SumUp extends Payment
     /**
      *
      */
-    const CONFIG_TOKEN = 'sales.paymentmethods.sumup.token';
+    const CONFIG_CLIENT_ID = 'sales.paymentmethods.sumup.client_id';
+    /**
+     *
+     */
+    const CONFIG_CLIENT_SECRET = 'sales.paymentmethods.sumup.client_secret';
     /**
      *
      */
@@ -86,15 +90,19 @@ class SumUp extends Payment
     /**
      * @var
      */
-    protected $token;
-
+    protected $client_id;
+    /**
+     * @var
+     */
+    protected $client_secret;
     /**
      * SumUp constructor.
      */
     public function __construct()
     {
         $this->email = core()->getConfigData(self::CONFIG_EMAIL_ADDRES);
-        $this->token = core()->getConfigData(self::CONFIG_TOKEN);
+        $this->client_id = core()->getConfigData(self::CONFIG_CLIENT_ID);
+        $this->client_secret = core()->getConfigData(self::CONFIG_CLIENT_SECRET);
 
         if (core()->getConfigData(self::CONFIG_SANDBOX)) {
             $this->sandbox = true;
@@ -113,7 +121,7 @@ class SumUp extends Payment
         Library::cmsVersion()->setName("Bagisto")->setRelease(Helper::MODULE_VERSION);
         Library::moduleVersion()->setName("Bagisto")->setRelease(Helper::MODULE_VERSION);
 
-        if (!$this->email || !$this->token) {
+        if (!$this->email || !$this->client_id || !$this->client_secret) {
             throw new Exception('Sumup: To use this payment method you need to inform the token and email account of SumUp account.');
         }
 
