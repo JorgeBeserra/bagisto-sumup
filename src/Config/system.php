@@ -39,11 +39,17 @@ return [
                 'validation' => 'required',
                 'info' => 'Endereço de email utilizado na conta do SumUp'
             ],[
-                'name' => 'token',
-                'title' => 'Token de Integração',
+                'name' => 'client_id',
+                'title' => 'Cliente Id',
                 'type' => 'text',
                 'validation' => 'required',
-                'info' => 'Token gerado na sua conta SumUp, para descobrir como pegar seu Token acesse esse link: https://www.mercadopago.com.br/developers/panel/credentials'
+                'info' => 'Client_ID gerado na sua conta SumUp, para descobrir como pegar seu Token acesse esse link: https://developer.sumup.com/docs/register-app/'
+            ],[
+                'name' => 'client_secret',
+                'title' => 'Cliente Secret',
+                'type' => 'text',
+                'validation' => 'required',
+                'info' => 'Token gerado na sua conta SumUp, para descobrir como pegar seu Token acesse esse link: https://developer.sumup.com/docs/register-app/'
             ],[
                 'name' => 'sandbox',
                 'title' => 'admin::app.admin.system.sandbox',
@@ -53,7 +59,7 @@ return [
                 'locale_based' => true,
             ],[
                 'name' => 'authorization',
-                'title' => 'admin::app.admin.system.authorization',
+                'title' => 'Autorização',
                 'type' => 'boolean',
                 'validation' => 'required',
                 'channel_based' => false,
