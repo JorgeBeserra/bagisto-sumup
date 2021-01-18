@@ -117,29 +117,59 @@ class SumUp extends Payment
      */
     public function init()
     {
-        Library::initialize();
-        Library::cmsVersion()->setName("Bagisto")->setRelease(Helper::MODULE_VERSION);
-        Library::moduleVersion()->setName("Bagisto")->setRelease(Helper::MODULE_VERSION);
-
+        
         if (!$this->email || !$this->client_id || !$this->client_secret) {
             throw new Exception('Sumup: To use this payment method you need to inform the token and email account of SumUp account.');
         }
 
-        Configure::setAccountCredentials($this->email, $this->token);
-        Configure::setCharset('UTF-8');
-        Configure::setEnvironment($this->environment);
-
         /** @var Cart $cart */
         $cart = $this->getCart();
+        try{
 
+            $sumup = new \SumUp\SumUp([
+            'app_id'     => $this->client_id,
+            'app_secret' => $this->client_secret,
+            'grant_type' => 'client_credentials',
+            'scopes'      => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly'],
+          ]);
+    
+          $accessToken = $sumup->getAccessToken();
+          $value = $accessToken->getValue();
+          echo 'Bearer: ' . $value . '<br>';
+    
+          
+          $sumup = new \SumUp\SumUp([
+            'app_id'     => $this->client_id,
+            'app_secret' => $this->client_secret,
+            'scopes'        => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly'],
+            'access_token' => $value
+          ]);
+          
+          $checkoutService = $sumup->getCheckoutService();
+          echo 'Checkout Services ';
+          var_dump($checkoutService);
+          echo '<br>';
+          $checkoutResponse = $checkoutService->create(5, 'BRL', '1', 'sabidos@sabidos.com.br');
+          $checkoutId = $checkoutResponse->getBody()->id;
+          echo 'ID: ' . $checkoutId . '<br>';
+          
+        } catch (\SumUp\Exceptions\SumUpResponseException $e) {
+          echo 'Response error: ' . $e->getMessage();
+        } catch(\SumUp\Exceptions\SumUpSDKException $e) {
+          echo 'SumUp SDK error: ' . $e->getMessage();
+        }
+
+
+        /*
         $this->payment = new \SumUp\Domains\Requests\Payment();
         $this->configurePayment($cart);
         $this->addItems();
         $this->addCustomer($cart);
         $this->addShipping($cart);
+        */
 
         try {
-            $this->sessionCode = Session::create(Configure::getAccountCredentials());
+           //$this->sessionCode = Session::create(Configure::getAccountCredentials());
         } catch (Exception $e) {
             throw new Exception('SumUp: ' . $e->getMessage());
         }
@@ -269,11 +299,14 @@ class SumUp extends Payment
      */
     public function send()
     {
+        /*
         return $this->payment->register(
             Configure::getAccountCredentials(),
             true
         );
-    }
+    */
+    return '';
+}
 
     /**
      * @return string
