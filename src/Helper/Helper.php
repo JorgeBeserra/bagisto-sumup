@@ -66,6 +66,24 @@ class Helper
     /**
      *
      */
+    const CURRRENCY = [
+        1 => 'EUR',
+        2 => 'BGN',
+        3 => 'BRL',
+        4 => 'CHF',
+        5 => 'CZK',
+        6 => 'DKK', // refunded
+        7 => 'GBP',
+        8 => 'HUF',
+        9 => 'NOK',
+        10 => 'PLN',
+        11 => 'SEK',
+        12 => 'USD'
+    ];
+
+    /**
+     *
+     */
     const PAYMENT_TYPE = [
         1 => 'Cartão de crédito',
         2 => 'Boleto',
