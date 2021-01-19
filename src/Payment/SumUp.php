@@ -130,7 +130,7 @@ class SumUp extends Payment
             'app_id'     => $this->client_id,
             'app_secret' => $this->client_secret,
             'grant_type' => 'client_credentials',
-            'scopes'      => ['payments', 'payment_instruments', 'transactions.history', 'user.app-settings', 'user.profile_readonly'],
+            'scopes'      => ['payments', 'payment_instruments', 'redirect_url','transactions.history', 'user.app-settings', 'user.profile_readonly'],
           ]);
     
           $accessToken = $sumup->getAccessToken();
@@ -144,14 +144,25 @@ class SumUp extends Payment
             'scopes'        => ['payments', 'payment_instruments', 'transactions.history', 'user.app-settings', 'user.profile_readonly'],
             'access_token' => $value
           ]);
+
+          echo 'Variaveis Configuração ';
+          var_dump($this->client_id);
+          var_dump($this->client_secret);
+          echo '<br>';
+          echo '<br>';
+
+          echo 'Variavel SumUp ';
+          var_dump($sumup);
+          echo '<br>';
+          echo '<br>';
           
           $checkoutService = $sumup->getCheckoutService();
           echo 'Checkout Services ';
           var_dump($checkoutService);
           echo '<br>';
-          //$checkoutResponse = $checkoutService->create(5, 'BRL', '1', 'sabidos@sabidos.com.br');
-          //$checkoutId = $checkoutResponse->getBody()->id;
-          //echo 'ID: ' . $checkoutId . '<br>';
+          $checkoutResponse = $checkoutService->create(5, 'BRL', '1', 'sabidos@sabidos.com.br');
+          $checkoutId = $checkoutResponse->getBody()->id;
+          echo 'ID: ' . $checkoutId . '<br>';
           
         } catch (\SumUp\Exceptions\SumUpResponseException $e) {
           echo 'Response error: ' . $e->getMessage();
