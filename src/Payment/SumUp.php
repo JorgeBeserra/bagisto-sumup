@@ -102,7 +102,7 @@ class SumUp extends Payment
     /**
      * @var
      */
-    protected $code;
+    protected $client_code;
     /**
      * SumUp constructor.
      */
@@ -111,7 +111,7 @@ class SumUp extends Payment
         $this->email = core()->getConfigData(self::CONFIG_EMAIL_ADDRES);
         $this->client_id = core()->getConfigData(self::CONFIG_CLIENT_ID);
         $this->client_secret = core()->getConfigData(self::CONFIG_CLIENT_SECRET);
-        $this->code = core()->getConfigData(self::CONFIG_CODE);
+        $this->client_code = core()->getConfigData(self::CONFIG_CODE);
 
         if (core()->getConfigData(self::CONFIG_SANDBOX)) {
             $this->sandbox = true;
@@ -140,7 +140,7 @@ class SumUp extends Payment
             'app_secret' => $this->client_secret,
             'grant_type' => 'authorization_code',
             'scopes'     => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly'],
-            'code'       => $this->code
+            'code'       => $this->client_code
           ]);
     
           $accessToken = $sumup->getAccessToken();
@@ -158,7 +158,7 @@ class SumUp extends Payment
           echo 'Variaveis Configuração ';
           var_dump($this->client_id);
           var_dump($this->client_secret);
-          var_dump($this->code);
+          var_dump($this->client_code);
           echo '<br>';
           echo '<br>';
 
