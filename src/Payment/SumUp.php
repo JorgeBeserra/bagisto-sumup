@@ -39,6 +39,10 @@ class SumUp extends Payment
     /**
      *
      */
+    const CONFIG_CODE = 'sales.paymentmethods.sumup.code';
+    /**
+     *
+     */
     const CONFIG_SANDBOX = 'sales.paymentmethods.sumup.sandbox';
     /**
      *
@@ -96,6 +100,10 @@ class SumUp extends Payment
      */
     protected $client_secret;
     /**
+     * @var
+     */
+    protected $code;
+    /**
      * SumUp constructor.
      */
     public function __construct()
@@ -103,6 +111,7 @@ class SumUp extends Payment
         $this->email = core()->getConfigData(self::CONFIG_EMAIL_ADDRES);
         $this->client_id = core()->getConfigData(self::CONFIG_CLIENT_ID);
         $this->client_secret = core()->getConfigData(self::CONFIG_CLIENT_SECRET);
+        $this->code = core()->getConfigData(self::CONFIG_CODE);
 
         if (core()->getConfigData(self::CONFIG_SANDBOX)) {
             $this->sandbox = true;
@@ -129,14 +138,15 @@ class SumUp extends Payment
             $sumup = new \SumUp\SumUp([
             'app_id'     => $this->client_id,
             'app_secret' => $this->client_secret,
-            'grant_type' => 'client_credentials',
-            'scopes'      => ['payments', 'payment_instruments', 'redirect_url','transactions.history', 'user.app-settings', 'user.profile_readonly'],
+            'grant_type' => 'authorization_code',
+            'scopes'     => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly'],
+            'code'       => $this->code
           ]);
     
           $accessToken = $sumup->getAccessToken();
+          $refreshToken = $accessToken->getRefreshToken();
           $value = $accessToken->getValue();
           echo 'Bearer: ' . $value . '<br>';
-    
           
           $sumup = new \SumUp\SumUp([
             'app_id'     => $this->client_id,
@@ -148,6 +158,7 @@ class SumUp extends Payment
           echo 'Variaveis Configuração ';
           var_dump($this->client_id);
           var_dump($this->client_secret);
+          var_dump($this->code);
           echo '<br>';
           echo '<br>';
 
