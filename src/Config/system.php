@@ -51,8 +51,8 @@ return [
                 'validation' => 'required',
                 'info' => 'Token gerado na sua conta SumUp, para descobrir como pegar seu Token acesse esse link: https://developer.sumup.com/docs/register-app/'
             ],[
-                'name' => 'code',
-                'title' => 'Code',
+                'name' => 'client_code',
+                'title' => 'Client Code',
                 'type' => 'text',
                 'info' => 'Code generated automated not required'
             ],[

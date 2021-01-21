@@ -39,7 +39,7 @@ class SumUp extends Payment
     /**
      *
      */
-    const CONFIG_CODE = 'sales.paymentmethods.sumup.code';
+    const CONFIG_CLIENT_CODE = 'sales.paymentmethods.sumup.client_code';
     /**
      *
      */
@@ -117,7 +117,7 @@ class SumUp extends Payment
         $this->email = core()->getConfigData(self::CONFIG_EMAIL_ADDRES);
         $this->client_id = core()->getConfigData(self::CONFIG_CLIENT_ID);
         $this->client_secret = core()->getConfigData(self::CONFIG_CLIENT_SECRET);
-        $this->client_code = core()->getConfigData(self::CONFIG_CODE);
+        $this->client_code = core()->getConfigData(self::CONFIG_CLIENT_CODE);
 
         if (core()->getConfigData(self::CONFIG_SANDBOX)) {
             $this->sandbox = true;
