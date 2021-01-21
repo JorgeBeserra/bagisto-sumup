@@ -19,6 +19,8 @@ class SumupServiceProvider extends ServiceProvider
     public function boot()
     {
         include __DIR__ . '/../Http/routes.php';
+        
+        $this->app->register(EventServiceProvider::class);
 
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'sumup');
 

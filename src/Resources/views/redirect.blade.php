@@ -7,7 +7,7 @@ $sumup->init();
 $response = $sumup->send();
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"

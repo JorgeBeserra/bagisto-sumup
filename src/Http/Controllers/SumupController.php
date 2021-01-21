@@ -18,6 +18,7 @@ use SumUp\Library;
 use SumUp\Services\Transactions\Notification;
 use Webkul\Checkout\Facades\Cart;
 use Webkul\Sales\Repositories\OrderRepository;
+use Webkul\Core\Repositories\CoreConfigRepository;
 
 /**
  * Class SumupController
@@ -26,11 +27,25 @@ use Webkul\Sales\Repositories\OrderRepository;
 class SumupController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected $_config;
+
+    /**
      * OrderRepository object
      *
      * @var OrderRepository
      */
     protected $orderRepository;
+
+    /**
+     * CoreConfigRepository object
+     *
+     * @var \Webkul\Core\Repositories\CoreConfigRepository
+     */
+    protected $coreConfigRepository;
 
     /**
      * @var Helper
@@ -45,9 +60,12 @@ class SumupController extends Controller
      */
     public function __construct(
         OrderRepository $orderRepository,
-        Helper $helper
+        Helper $helper,
+        CoreConfigRepository $coreConfigRepository
     )
     {
+        $this->coreConfigRepository = $coreConfigRepository;
+        $this->_config = request('_config');
         $this->orderRepository = $orderRepository;
         $this->helper = $helper;
     }
@@ -70,6 +88,41 @@ class SumupController extends Controller
         session()->flash('error', 'Você cancelou o pagamento, pedido não finalizado');
 
         return redirect()->route('shop.checkout.cart.index');
+    }
+
+
+    /**
+     * Callback from sumup.
+     *
+     * @return Response
+     */
+    public function callback(Request $request)
+    {
+        $code = $request->input('code');
+
+        $sumupDetails = Array(
+            'code' => $code
+        );
+
+        $sumup = Array(
+            'sumup' => $sumupDetails
+        );
+
+        $paymentsmethods = Array(
+            'paymentmethods' => $sumup
+        );
+
+        $sales = Array(
+            'channel' => 'default',
+            'locale' => 'pt_BR',
+            'sales' => $paymentsmethods
+        );
+
+        
+        $this->coreConfigRepository->create($sales);
+        
+        session()->flash('success', trans('admin::app.configuration.save-message'));
+        return redirect()->route('admin.configuration.index');
     }
 
     /**

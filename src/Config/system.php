@@ -51,15 +51,21 @@ return [
                 'validation' => 'required',
                 'info' => 'Token gerado na sua conta SumUp, para descobrir como pegar seu Token acesse esse link: https://developer.sumup.com/docs/register-app/'
             ],[
-                'name' => 'sandbox',
-                'title' => 'admin::app.admin.system.sandbox',
+                'name' => 'code',
+                'title' => 'Code',
+                'type' => 'text',
+                'validation' => 'required',
+                'info' => 'Code generated automated not required'
+            ],[
+                'name' => 'authorization',
+                'title' => 'Autorização',
                 'type' => 'boolean',
                 'validation' => 'required',
                 'channel_based' => false,
                 'locale_based' => true,
             ],[
-                'name' => 'authorization',
-                'title' => 'Autorização',
+                'name' => 'sandbox',
+                'title' => 'admin::app.admin.system.sandbox',
                 'type' => 'boolean',
                 'validation' => 'required',
                 'channel_based' => false,
@@ -171,7 +177,7 @@ return [
                     ]
                 ],
                 'validation' => 'required'
-            ], [
+            ],[
                 'name' => 'active',
                 'title' => 'admin::app.admin.system.status',
                 'type' => 'select',
