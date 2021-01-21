@@ -139,10 +139,37 @@ class SumUp extends Payment
 
         /** @var Cart $cart */
         $cart = $this->getCart();
-        
-        $authorizationSuccess = $sumup->authorize();
 
-        dd($authorizationSuccess);
+        $sumup = new \SumUp\SumUp([
+            'app_id'     =>  $this->client_id,
+            'app_secret' =>  $this->client_secret,
+            'code'       =>  $this->client_code
+        ]);
+        $checkoutService = $sumup->getCheckoutService();
+        $checkoutResponse = $checkoutService->create($amount, $currency, $checkoutRef, $payToEmail);
+        $checkoutId = $checkoutResponse->getBody()->id;
+
+        dd($checkoutId);
+        
+        /*
+        $authorizationSuccess = $this->authorize();
+
+        
+
+        $checkout_service = $this->sumupClient->getCheckoutService();
+
+        $checkout_response = $checkout_service->create(
+            5,
+            'BRL',
+            '1',
+            'sabidostestbr@sumup.com',
+            'teste',
+            null,
+            'http://projetos.aneconceito/sumup/callback'
+        );
+
+        dd($checkout_response);
+        */
         dd('Passou!');
         try{
           /*
@@ -217,12 +244,11 @@ class SumUp extends Payment
 			$this->sumupClient = new \SumUp\SumUp([
 				'app_id'     => $this->client_id,
 				'app_secret' => $this->client_secret,
-				'grant_type' => 'client_credentials',
-				'scopes'     => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly']
+				'code'       => $this->client_code
 			]);
 			return true;
 		} catch(\SumUp\Exceptions\SumUpSDKException $e) {
-			throw new Exception( 'Error: (ClientID: "' . $this->client_id . '") ' . $e->getMessage(), 'error' );
+			echo 'erro';
 		}
 
 		return false;
