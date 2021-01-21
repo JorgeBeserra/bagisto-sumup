@@ -4,8 +4,8 @@ use Jorgebeserra\Sumup\Payment\SumUp;
 /** @var SumUp $sumup */
 $sumup = app(SumUp::class);
 $sumup->init();
-$response = $sumup->send();
-?>
+//$response = $sumup->send();
+/*
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -33,3 +33,5 @@ $response = $sumup->send();
 </script>
 </body>
 </html>
+*/
+?>

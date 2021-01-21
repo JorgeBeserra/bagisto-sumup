@@ -212,10 +212,12 @@ class SumUp extends Payment
           $checkoutId = $checkoutResponse->getBody()->id;
           echo 'ID: ' . $checkoutId . '<br>';
           */
+        } catch (\SumUp\Exceptions\SumUpAuthenticationException $e) {
+            echo 'Authentication error: ' . $e->getMessage();
         } catch (\SumUp\Exceptions\SumUpResponseException $e) {
-          echo 'Response error: ' . $e->getMessage();
+            echo 'Response error: ' . $e->getMessage();
         } catch(\SumUp\Exceptions\SumUpSDKException $e) {
-          echo 'SumUp SDK error: ' . $e->getMessage();
+            echo 'SumUp SDK error: ' . $e->getMessage();
         }
 
 
