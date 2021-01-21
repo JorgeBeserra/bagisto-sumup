@@ -54,7 +54,6 @@ return [
                 'name' => 'code',
                 'title' => 'Code',
                 'type' => 'text',
-                'validation' => 'required',
                 'info' => 'Code generated automated not required'
             ],[
                 'name' => 'authorization',
