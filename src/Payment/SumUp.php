@@ -103,6 +103,12 @@ class SumUp extends Payment
      * @var
      */
     protected $client_code;
+    
+    /**
+     * SumUp Client.
+     */
+    protected $sumupClient;
+
     /**
      * SumUp constructor.
      */
@@ -133,14 +139,18 @@ class SumUp extends Payment
 
         /** @var Cart $cart */
         $cart = $this->getCart();
-        try{
+        
+        $authorizationSuccess = $sumup->authorize();
 
-            $sumup = new \SumUp\SumUp([
+        dd($authorizationSuccess);
+        dd('Passou!');
+        try{
+          /*
+          $sumup = new \SumUp\SumUp([
             'app_id'     => $this->client_id,
             'app_secret' => $this->client_secret,
-            'grant_type' => 'authorization_code',
-            'scopes'     => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly'],
-            'code'       => $this->client_code
+            'grant_type' => 'client_credentials',
+            'scopes'     => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly']
           ]);
     
           $accessToken = $sumup->getAccessToken();
@@ -174,7 +184,7 @@ class SumUp extends Payment
           $checkoutResponse = $checkoutService->create(5, 'BRL', '1', 'sabidos@sabidos.com.br');
           $checkoutId = $checkoutResponse->getBody()->id;
           echo 'ID: ' . $checkoutId . '<br>';
-          
+          */
         } catch (\SumUp\Exceptions\SumUpResponseException $e) {
           echo 'Response error: ' . $e->getMessage();
         } catch(\SumUp\Exceptions\SumUpSDKException $e) {
@@ -195,6 +205,27 @@ class SumUp extends Payment
         } catch (Exception $e) {
             throw new Exception('SumUp: ' . $e->getMessage());
         }
+    }
+
+    public function authorize(){
+        if ( isset( $this->sumupClient ) ) {
+			$this->sumupClient;
+			return true;
+        }
+        
+        try {
+			$this->sumupClient = new \SumUp\SumUp([
+				'app_id'     => $this->client_id,
+				'app_secret' => $this->client_secret,
+				'grant_type' => 'client_credentials',
+				'scopes'     => ['payments', 'transactions.history', 'user.app-settings', 'user.profile_readonly']
+			]);
+			return true;
+		} catch(\SumUp\Exceptions\SumUpSDKException $e) {
+			throw new Exception( 'Error: (ClientID: "' . $this->client_id . '") ' . $e->getMessage(), 'error' );
+		}
+
+		return false;
     }
 
     /**
