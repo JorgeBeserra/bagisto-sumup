@@ -101,7 +101,7 @@ class SumupController extends Controller
         $code = $request->input('code');
 
         $sumupDetails = Array(
-            'code' => $code
+            'client_code' => $code
         );
 
         $sumup = Array(
